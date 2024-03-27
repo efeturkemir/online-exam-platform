@@ -3,10 +3,6 @@
 ## Description
 The Online Exam Platform is a web application that facilitates online examinations. It supports user registration, login, exam participation, result viewing, and includes an admin panel for exam management.
 
-![ExamPlatform Screenshot](exam.png)
-![ExamPlatform Screenshot](exam1.png)
-
-
 ## Features
 - **User Authentication**: Secure registration and login using JWT authentication with bcrypt for password hashing.
 - **Exam Participation**: Users can take exams within a set time limit.
@@ -53,6 +49,10 @@ dotnet run
 ## Admin Panel
 - Access the admin panel with admin credentials.
 - Admin credentials can be set in the database or through a registration process with special privileges.
+
+## Screenshots
+![ExamPlatform Screenshot](exam.png)
+![ExamPlatform Screenshot](exam1.png)
 
 ## Contributing
 Contributions are welcome! Submit pull requests or open issues for feature requests, bug fixes, or improvements.
