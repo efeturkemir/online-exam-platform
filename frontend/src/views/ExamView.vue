@@ -8,7 +8,7 @@ import { computed, ref } from 'vue';
 
 const route = useRoute();
 const store = useExamStore();
-const selectedExam = store.exams.find((exam : Exam) => exam.id === route.params.examId);
+const selectedExam = store.exams.find((exam: Exam) => exam.id === route.params.examId);
 const correctAnswer = ref(0);
 const selectedAnswers = ref<number[]>([]);
 const submitted = ref(false);
@@ -48,39 +48,40 @@ const progressBarWidth = computed(() => {
 </script>
 
 <template>
-  <body v-if="selectedExam" class="bg-gray-100 flex flex-col min-h-screen">
-    <main class="flex-grow container mx-auto px-4 py-6 flex flex-col items-center justify-center min-h-screen">
-      <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+
+  <body v-if="selectedExam" class="bg-cool-gray-100 flex flex-col min-h-screen">
+    <main class="flex-grow container mx-auto px-4 py-6 flex flex-col items-center justify-center">
+      <div class="bg-white shadow-xl rounded-xl p-8 w-full max-w-4xl">
         <!-- Exam div -->
-        <div class="flex items-center">
-          <router-link to="/" class="text-blue-600 hover:text-blue-800 mr-6">
-            <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+        <div class="flex items-center justify-between mb-6">
+          <router-link to="/" class="text-indigo-600 hover:text-indigo-800 transition duration-300">
+            <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
+            <span class="ml-2">Back to Dashboard</span>
           </router-link>
-          <h2 class="text-4xl font-extrabold">{{ selectedExam.examName }}</h2>
-        
-        </div>
-        <div class="text-right">
-            <span class="text-xl font-semibold">Time Remaining:</span>
-            <span id="timer" class="text-xl font-bold text-red-500">60:00</span>
+          <h2 class="text-4xl font-extrabold text-gray-800">{{ selectedExam.examName }}</h2>
+          <div>
+            <span class="text-lg font-semibold">Time Remaining:</span>
+            <span id="timer" class="text-lg font-bold text-red-600">60:00</span>
           </div>
+        </div>
 
         <!-- Progress Bar -->
-        <div class="w-full bg-gray-300 rounded-full h-2.5 mb-8">
-          <div class="bg-green-500 rounded-full h-2.5" :style="{ width: progressBarWidth }"></div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+          <div class="bg-indigo-500 rounded-full h-2.5" :style="{ width: progressBarWidth }"></div>
         </div>
 
         <!-- Question Component -->
         <Question @update-answer="updateSelectedAnswer" :question="selectedExam.questions[currentIndex]"
-                  :index="currentIndex" />
+          :index="currentIndex" />
 
         <!-- Navigation Buttons -->
         <div class="flex justify-between my-8">
           <button @click="navigateQuestion(-1)"
-                  class="bg-gray-400 hover:bg-gray-500 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300">
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300">
             Previous
           </button>
           <button v-if="currentIndex !== selectedExam.questions.length - 1" @click="navigateQuestion(1)"
-                  class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
             Next
           </button>
         </div>
@@ -88,7 +89,7 @@ const progressBarWidth = computed(() => {
         <!-- Submit Button -->
         <div class="flex justify-center my-8">
           <button @click="submitExam"
-                  class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
             Submit Exam
           </button>
         </div>
@@ -97,37 +98,18 @@ const progressBarWidth = computed(() => {
 
     <!-- Result Modal -->
     <Result v-show="resultModal" :exam="selectedExam" :answers="selectedAnswers" :correctCount="correctAnswer"
-            :close-modal="closeModal" />
+      :close-modal="closeModal" />
 
     <!-- Footer -->
     <footer class="bg-gray-200 w-full py-6 text-center">
-      <p class="text-gray-700">© 2024 Online Exam Platform. All rights reserved.</p>
+      <p class="text-gray-600">© 2024 Online Exam Platform. All rights reserved.</p>
     </footer>
   </body>
 </template>
 
-
 <style scoped>
-/* Add your styles here */
-html,
-body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.bg-green-500 {
-  /* Add transition effect for width change */
+.bg-indigo-500 {
+  background-color: #667eea;
   transition: width 0.5s ease-in-out;
 }
 </style>

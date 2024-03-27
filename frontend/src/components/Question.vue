@@ -21,17 +21,16 @@ watch(() => props.question, () => {
 
 
 </script>
-
 <template>
-  <section class="mb-10 p-6 bg-white rounded-lg shadow">
-    <h3 class="text-2xl font-bold text-gray-900 mb-4">Question {{ index + 1 }}</h3>
-    <p class="text-gray-700 text-lg mb-6">{{ props.question.questionText }}</p>
+  <section class="mb-10 p-8 bg-gray-100 rounded-xl shadow-lg">
+    <h3 class="text-3xl font-bold text-gray-800 mb-6">Question {{ index + 1 }}</h3>
+    <p class="text-lg mb-8 text-gray-700">{{ props.question.questionText }}</p>
     <div class="flex flex-col space-y-4">
       <div v-for="(option, optionIndex) in props.question.options" :key="optionIndex" class="flex items-center">
         <input type="radio" :id="'option' + optionIndex" :value="optionIndex" class="hidden peer" :name="'question_' + index" :checked="selectedOptionIndex === optionIndex" @change="updateSelectedAnswer(optionIndex)">
-        <label :for="'option' + optionIndex" class="flex items-center cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-semibold p-3 w-full bg-gray-200 rounded-lg transition-colors duration-300">
-          <span class="w-6 h-6 inline-block mr-2 rounded-full border border-gray-400 flex items-center justify-center">
-            <span class="w-4 h-4 rounded-full bg-blue-600 scale-0 peer-checked:scale-100 transition-transform duration-300"></span>
+        <label :for="'option' + optionIndex" class="flex items-center cursor-pointer peer-checked:bg-gray-300 peer-checked:ring-2 peer-checked:ring-gray-400 p-4 w-full bg-white rounded-full transition-all duration-300 ease-in-out">
+          <span class="w-6 h-6 inline-block mr-3 rounded-full border-2 border-gray-400 flex items-center justify-center">
+            <span class="w-4 h-4 rounded-full bg-gray-800 scale-0 peer-checked:scale-100 transition-transform duration-300"></span>
           </span>
           {{ option }}
         </label>
@@ -46,13 +45,14 @@ input[type="radio"] {
   accent-color: transparent;
 }
 input[type="radio"]:checked + label {
-  background-color: #3182ce; /* TailwindCSS blue-600 */
-  color: white;
+  background-color: #e2e8f0; /* TailwindCSS gray-300 */
+  color: #2d3748; /* TailwindCSS gray-800 */
 }
 input[type="radio"]:checked + label span:first-child {
-  border-color: #3182ce; /* TailwindCSS blue-600 */
+  border-color: #cbd5e0; /* TailwindCSS gray-400 */
 }
 input[type="radio"]:checked + label span:last-child {
-  background-color: white;
+  background-color: #2d3748; /* TailwindCSS gray-800 */
 }
 </style>
+

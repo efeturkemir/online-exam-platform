@@ -55,25 +55,24 @@ export const useAuthStore = defineStore("auth", {
     decodeJWT() {
       const token = this.getCookie("userToken")
       const base64urlDecode = (str: string) => {
-        str = str.replace(/-/g, "+").replace(/_/g, "/");
-        while (str.length % 4 !== 0) {
-          str += "=";
-        }
-        return atob(str);
+        return decodeURIComponent(atob(str).split('').map((c) => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
       };
-
+    
       const parts = token.split(".");
       if (parts.length !== 3) {
-        return null;
+        return { isExpired: true };
       }
-
+    
       const payload = JSON.parse(base64urlDecode(parts[1]));
-
-      const { ID, username, role } = payload;
+      const now = Date.now() / 1000; // Current time in seconds
+    
       return {
-        _userId: ID,
-        _username: username,
-        _role: role,
+        _userId: payload.ID,
+        _username: payload.username,
+        _role: payload.role,
+        isExpired: payload.exp < now
       };
     },
     async logout() {

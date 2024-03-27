@@ -48,28 +48,26 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const store = useAuthStore();
-  const isLoggedIn = !!store.getCookie("userToken");
-  
+  const token = store.getCookie("userToken");
+  const isLoggedIn = !!token;
 
+  // Check if the user is trying to access login or register page
   if (to.name === "login" || to.name === "register") {
-    if (isLoggedIn) {
+    if (isLoggedIn && !store.decodeJWT().isExpired) {
       next({ name: "home" });
     } else {
       next();
     }
   } else {
+    // Check if the route requires authentication
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (!isLoggedIn) {
+      if (!isLoggedIn || store.decodeJWT().isExpired) {
         next({ name: "login" });
       } else {
-        if (to.matched.some((record) => record.meta.requiresAdmin)) {
-          const store = useAuthStore()
-          const role = store.decodeJWT()?._role
-          if (role !== "admin") {
-            next({ name: "home" });
-          } else {
-            next();
-          }
+        // Check if the route requires admin role
+        const role = store.decodeJWT()._role;
+        if (to.matched.some((record) => record.meta.requiresAdmin) && role !== "admin") {
+          next({ name: "home" });
         } else {
           next();
         }

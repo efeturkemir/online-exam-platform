@@ -8,9 +8,10 @@ const store = useExamStore()
 const exams : Exam[] = store.exams
 
 const startExam  = async (id : String)  =>{
-    
+    store.loading = true
     await router.push(`/exams/${id}`)
-}
+    store.loading = false
+  }
 
 
 </script>
@@ -20,32 +21,34 @@ const startExam  = async (id : String)  =>{
   <Navbar></Navbar>
 
   <!-- Main Content -->
-  <div class="container mx-auto mt-8 px-4 lg:px-0">
-    <div v-if="exams.length" class="text-center">
-      <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        You have <span class="text-blue-600">{{ exams.length }}</span> new exams <i class="fas fa-book text-blue-600"></i>
-      </h1>
-      <!-- Exam Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-for="exam in exams" :key="exam.id" class="bg-white transition-shadow duration-300 hover:shadow-xl rounded-lg overflow-hidden mb-4">
-          <div class="p-6">
-            <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ exam.examName }}</h2>
-            <p class="text-gray-600 mb-4">
-              <i class="fas fa-file-alt mr-2"></i> Exam Type: {{ exam.examType }}
-            </p>
-            <button @click="startExam(exam.id)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1">
-              <span>Start Exam!</span>
-              <span class="ml-2" role="img" aria-label="Start Exam">🚀</span>
-            </button>
+  <section class="main-content bg-gray-100 py-10">
+    <div class="container mx-auto px-4">
+      <div v-if="exams.length" class="exams-section">
+        <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-10">
+          <span class="block sm:inline">Ready for </span>
+          <span class="block sm:inline text-indigo-600">{{ exams.length }} New Challenges?</span>
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-for="exam in exams" :key="exam.id" class="exam-card bg-white rounded-xl shadow-lg transform transition duration-500 hover:scale-105">
+            <div class="p-8">
+              <h2 class="text-2xl font-semibold mb-3">{{ exam.examName }}</h2>
+              <p class="text-gray-500 mb-5">
+                <i class="fas fa-layer-group mr-2"></i>{{ exam.examType }}
+              </p>
+              <button @click="startExam(exam.id)"
+                class="start-exam-btn w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-md transition duration-300 ease-in-out">
+                Start Exam
+                <i class="fas fa-arrow-right ml-2"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <div v-else class="no-exams text-center py-10">
+        <p class="text-xl text-gray-600">
+          <i class="far fa-calendar-times mr-2"></i>No exams scheduled. Enjoy your free time!
+        </p>
+      </div>
     </div>
-
-    <div v-else class="text-center text-gray-600 text-lg mt-8">
-      <p><i class="far fa-sticky-note mr-2"></i> There are no exams available at the moment. Please check back later!</p>
-    </div>
-  </div>
+  </section>
 </template>
-

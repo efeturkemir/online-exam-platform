@@ -15,29 +15,29 @@ const props = defineProps<{
 
 <template>
   <transition name="fade">
-    <div class="modal-overlay" @click.self="props.closeModal">
-      <div class="modal">
-        <header class="modal-header">
-          <h2><i class="fas fa-clipboard-list"></i> Exam Results</h2>
-          <button class="close-button" @click="props.closeModal"><i class="fas fa-times"></i></button>
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50" @click.self="props.closeModal">
+      <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg max-h-full overflow-y-auto">
+        <header class="flex justify-between items-center bg-blue-500 text-white p-4">
+          <h2 class="text-xl font-semibold flex items-center"><i class="fas fa-clipboard-list mr-2"></i> Exam Results</h2>
+          <button class="text-2xl focus:outline-none" @click="props.closeModal"><i class="fas fa-times"></i></button>
         </header>
 
-        <div class="modal-content">
-          <div class="score-card">
-            <p><i class="fas fa-star"></i> Your Score: <strong>{{ props.correctCount }}/{{ props.exam.questionCount }}</strong></p>
-            <p><i class="fas fa-chart-line"></i> Percentage: <strong>{{ (props.correctCount / props.exam.questionCount * 100).toFixed(2) }}%</strong></p>
+        <div class="p-6">
+          <div class="bg-blue-100 text-blue-800 p-4 rounded-lg mb-6">
+            <p class="flex items-center"><i class="fas fa-star mr-2"></i> Your Score: <strong class="ml-1">{{ props.correctCount }}/{{ props.exam.questionCount }}</strong></p>
+            <p class="flex items-center"><i class="fas fa-chart-line mr-2"></i> Percentage: <strong class="ml-1">{{ (props.correctCount / props.exam.questionCount * 100).toFixed(2) }}%</strong></p>
           </div>
-          <div class="question-cards">
-            <div class="card" v-for="(question, index) in props.exam.questions" :key="index">
-              <div class="card-header">
-                <h3>Question {{ index + 1 }}</h3>
+          <div class="space-y-4">
+            <div class="bg-gray-100 p-4 rounded-lg" v-for="(question, index) in props.exam.questions" :key="index">
+              <div class="mb-2">
+                <h3 class="text-lg font-semibold">Question {{ index + 1 }}</h3>
               </div>
-              <div class="card-body">
-                <p class="question">{{ question.questionText }}</p>
-                <p class="answer" :class="{ 'correct': props.answers[index] === question.answerIndex, 'incorrect': props.answers[index] !== question.answerIndex }">
-                  <i class="fas" :class="{'fa-check': props.answers[index] === question.answerIndex, 'fa-times': props.answers[index] !== question.answerIndex}"></i>
+              <div>
+                <p class="font-bold mb-2">{{ question.questionText }}</p>
+                <p class="flex items-center" :class="{ 'text-green-600': props.answers[index] === question.answerIndex, 'text-red-600': props.answers[index] !== question.answerIndex }">
+                  <i class="fas" :class="{'fa-check mr-2': props.answers[index] === question.answerIndex, 'fa-times mr-2': props.answers[index] !== question.answerIndex}"></i>
                   {{ props.answers[index] === question.answerIndex ? 'Correct' : 'Your' }} Answer: {{ question.options[props.answers[index]] }}
-                  <span v-if="props.answers[index] !== question.answerIndex">| Correct Answer: {{ question.options[question.answerIndex] }}</span>
+                  <span v-if="props.answers[index] !== question.answerIndex" class="ml-2">| Correct Answer: {{ question.options[question.answerIndex] }}</span>
                 </p>
               </div>
             </div>
@@ -47,6 +47,7 @@ const props = defineProps<{
     </div>
   </transition>
 </template>
+
 
 <style scoped>
 .modal-overlay {
