@@ -44,6 +44,7 @@ cd frontend
 npm install
 cd ../examApi
 dotnet restore
+dotnet run
 ```
 ## Configuration
 - Configure MongoDB connection string in appsettings.json.
